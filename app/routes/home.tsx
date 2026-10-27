@@ -12,6 +12,11 @@ export function meta({}: Route.MetaArgs) {
     ];
 }
 
+// Let the CDN cache the page so external APIs are not hit on every visit.
+export function headers() {
+    return {"Cache-Control": "s-maxage=3600, stale-while-revalidate=86400"};
+}
+
 export async function loader() {
     const [posts, pullRequests] = await Promise.all([getPosts(), getPullRequests()]);
     return {posts, pullRequests};
